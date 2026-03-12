@@ -18,7 +18,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            overflow: hidden; /* 防止愛心飛出螢幕出現滾動條 */
+            overflow: hidden;
         }
 
         .card {
@@ -35,7 +35,7 @@
         }
 
         h1 { 
-            color: #d87093; /* 櫻花粉 */
+            color: #d87093; 
             margin-bottom: 0.5rem;
             letter-spacing: 2px;
         }
@@ -58,33 +58,38 @@
             transition: all 0.3s ease;
             box-shadow: 0 6px 20px rgba(255, 182, 193, 0.5);
             outline: none;
-            position: relative;
-            overflow: hidden;
+            margin-bottom: 1rem;
         }
 
         button:hover { 
             transform: translateY(-3px) scale(1.03); 
-            box-shadow: 0 8px 25px rgba(255, 182, 193, 0.7);
-        }
-
-        button:active {
-            transform: translateY(1px);
         }
 
         #result {
-            margin-top: 2rem;
-            font-size: 1.3rem;
+            margin-top: 1rem;
             color: #7d5a5a;
-            line-height: 1.6;
-            min-height: 4rem;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            line-height: 1.4;
+            min-height: 5rem;
             animation: fadeIn 0.5s ease;
         }
 
-        /* 愛心噴發特效 CSS */
+        .main-text {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .index-text {
+            font-size: 1.1rem;
+            color: #e67e22; /* 橘色強調指數 */
+            font-weight: bold;
+            display: block;
+            border-top: 1px dashed #ffc3a0;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
         .heart {
             position: absolute;
             font-size: 20px;
@@ -117,20 +122,39 @@
 
 <script>
     function revealFate(e) {
-        // --- 1. 占卜邏輯 ---
+        // --- 1. 基礎占卜邏輯 ---
         const characters = ["鵪鶉", "大狗", "店長"];
         const actions = ["想你", "想抱你", "想蓋印章", "想蹭蹭", "想貼貼", "想捏大腿", "想打屁股", "想摸頭", "想抓你脖子"];
         
         const char = characters[Math.floor(Math.random() * characters.length)];
         const action = actions[Math.floor(Math.random() * actions.length)];
         
-        const resultDiv = document.getElementById('result');
-        resultDiv.style.animation = 'none'; // 重置動畫
-        resultDiv.offsetHeight; // 強制刷新
-        resultDiv.style.animation = 'fadeIn 0.5s ease';
-        resultDiv.innerText = `✨ 今天 ${char} ✨\n超級超級 ${action}`;
+        // --- 2. 指數邏輯 (70~100) ---
+        const score = Math.floor(Math.random() * (100 - 70 + 1)) + 70;
+        let level = "";
+        
+        if (score >= 96) {
+            level = "💖 超級想";
+        } else if (score >= 90) {
+            level = "🔥 大想";
+        } else if (score >= 80) {
+            level = "✨ 中想";
+        } else {
+            level = "🌤️ 小想";
+        }
 
-        // --- 2. 愛心噴發特效 ---
+        // --- 3. 渲染畫面 ---
+        const resultDiv = document.getElementById('result');
+        resultDiv.style.animation = 'none';
+        resultDiv.offsetHeight;
+        resultDiv.style.animation = 'fadeIn 0.5s ease';
+        
+        resultDiv.innerHTML = `
+            <span class="main-text">✨ 今天 ${char} ✨<br>超級超級 ${action}</span>
+            <span class="index-text">想念指數：${score} % (${level})</span>
+        `;
+
+        // --- 4. 愛心特效 ---
         for (let i = 0; i < 15; i++) {
             createHeart(e.clientX, e.clientY);
         }
@@ -140,22 +164,14 @@
         const heart = document.createElement('div');
         heart.innerHTML = '❤️';
         heart.classList.add('heart');
-        
-        // 隨機噴射方向
         const moveX = (Math.random() - 0.5) * 300;
         const moveY = (Math.random() - 0.5) * 300;
-        
         heart.style.setProperty('--x', `${moveX}px`);
         heart.style.setProperty('--y', `${moveY}px`);
         heart.style.left = `${x}px`;
         heart.style.top = `${y}px`;
-        
         document.body.appendChild(heart);
-        
-        // 動畫結束後移除元素以免佔用記憶體
-        setTimeout(() => {
-            heart.remove();
-        }, 1000);
+        setTimeout(() => heart.remove(), 1000);
     }
 </script>
 
