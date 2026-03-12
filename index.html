@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>解憂雜貨店占卜</title>
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100-vh;
+            margin: 0;
+        }
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 90%;
+            width: 350px;
+        }
+        h1 { color: #4a4a4a; margin-bottom: 0.5rem; }
+        .description { color: #888; font-size: 0.9rem; margin-bottom: 2rem; }
+        button {
+            background-color: #ffb6c1;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.4);
+        }
+        button:hover { transform: scale(1.05); background-color: #ff9aa2; }
+        #result {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            color: #5d5d5d;
+            line-height: 1.6;
+            min-height: 3rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>解憂雜貨店占卜</h1>
+    <p class="description">Only for 小狗狗使用</p>
+    
+    <button onclick="revealFate()">點擊占卜今日份的愛</button>
+    
+    <div id="result"></div>
+</div>
+
+<script>
+    function revealFate() {
+        const characters = ["鵪鶉", "大狗", "店長"];
+        const actions = ["想你", "想抱你", "想蓋印章", "想蹭蹭", "想貼貼", "想捏大腿", "想打屁股", "想摸頭", "想抓你脖子"];
+        
+        const char = characters[Math.floor(Math.random() * characters.length)];
+        const action = actions[Math.floor(Math.random() * actions.length)];
+        
+        document.getElementById('result').innerText = `今天 ${char} 超級超級 ${action}`;
+    }
+</script>
+
+</body>
+</html>
